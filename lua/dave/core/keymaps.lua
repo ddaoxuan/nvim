@@ -25,7 +25,12 @@ vim.keymap.set('n', '<C-w><left>', '<C-w><')
 vim.keymap.set('n', '<C-w><right>', '<C-w>>')
 vim.keymap.set('n', '<C-w><up>', '<C-w>-')
 vim.keymap.set('n', '<C-w><down>', '<C-w>+')
-vim.keymap.set('n', 'dw', 'vb"_d') -- Delete a word backwards
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G') --Select all
 -- Open explorer
 vim.keymap.set('n', '<leader>fb', ':Explore<CR>')
+
+-- Movement up and down but keeps the cursor in the center
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')

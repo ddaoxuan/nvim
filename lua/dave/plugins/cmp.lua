@@ -6,12 +6,15 @@ return {
   'hrsh7th/nvim-cmp',
   event = { 'InsertEnter' },
   dependencies = {
+    'hrsh7th/cmp-nvim-lsp', -- Adds LSP completion capabilities
+    'hrsh7th/cmp-nvim-lua',
     'hrsh7th/cmp-buffer', -- source for text in buffer
     'hrsh7th/cmp-path', -- source for file system paths
-    'L3MON4D3/LuaSnip', -- Snippet engine
     'saadparwaiz1/cmp_luasnip', -- Completion source for snippets
-    'rafamadriz/friendly-snippets', -- Adds a number of user-friendly snippets
-    'hrsh7th/cmp-nvim-lsp', -- Adds LSP completion capabilities
+
+    -- Snippets
+    'L3MON4D3/LuaSnip',
+    'rafamadriz/friendly-snippets',
   },
   config = function()
     local cmp = require 'cmp'
