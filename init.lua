@@ -2,4 +2,5 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-require 'dave'
+require('dave.core')
+require('dave.lazy')

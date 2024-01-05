@@ -3,6 +3,7 @@ vim.keymap.set('n', '<leader>el', vim.cmd.Ex) -- explorer (netrw)
 vim.keymap.set('n', 'dw', 'vb"_d') -- Delete a word backwards
 vim.keymap.set('n', 'ss', ':split<Return><C-w>w', { silent = true }) -- horizontal split
 vim.keymap.set('n', 'sv', ':vsplit<Return><C-w)w', { silent = true }) -- vertical split
+vim.keymap.set('n', '<C-a>', 'gg<S-v>G') --Select all
 
 -- Move between splits
 vim.keymap.set('', 'sh', '<C-w>h') -- move left

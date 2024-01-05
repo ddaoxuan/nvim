@@ -1,5 +1,4 @@
-require('dave.keymaps')
-require('dave.lazy')
+require('dave.core.keymaps')
 
 vim.opt.guicursor = ''
 vim.o.termguicolors = true
