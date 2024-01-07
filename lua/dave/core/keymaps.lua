@@ -27,6 +27,8 @@ vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
+vim.keymap.set('x', '<leader>p', '"_dP') -- paste without yanking
+
 -- Copy to system clipboard
 vim.keymap.set(
     { 'n', 'v' },
@@ -35,6 +37,13 @@ vim.keymap.set(
     { desc = 'Copy to system clipboard' }
 )
 vim.keymap.set('n', '<leader>Y', [["+Y]])
+
+-- replace current word
+vim.keymap.set(
+    'n',
+    '<leader>s',
+    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
+)
 
 -- formatting
 -- vim.keymap.set("n", "<leader>o", vim.lsp.buf.format)

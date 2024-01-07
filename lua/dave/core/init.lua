@@ -22,7 +22,7 @@ vim.o.timeoutlen = 300 -- shortens key sequence time
 -- [[ Misc ]]
 vim.opt.colorcolumn = '80' -- Line length marker at 80 columns
 vim.wo.signcolumn = 'yes' -- Keep signcolumn on by default
-vim.opt.scrolloff = 10 -- Keep 10 lines visible when scrolling
+vim.opt.scrolloff = 8 -- Keep 8 lines visible when scrolling
 
 vim.o.undofile = true -- Save undo history
 vim.o.undodir = vim.fn.stdpath('config') .. '/undo' -- set undo directory
@@ -40,3 +40,19 @@ vim.opt.shell = 'fish' -- shell to fish
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+
+-- highlight on yank
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 40,
+        })
+    end,
+})

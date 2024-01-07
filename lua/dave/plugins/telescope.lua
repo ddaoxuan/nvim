@@ -2,7 +2,6 @@
 -- See `:help telescope` and `:help telescope.setup()`
 return {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
     dependencies = {
         'nvim-lua/plenary.nvim', -- lua functions that telescope needs
         'nvim-telescope/telescope-file-browser.nvim', -- tree structure plugin
@@ -23,7 +22,7 @@ return {
         local telescope = require('telescope')
         local builtin = require('telescope.builtin')
         local actions = require('telescope.actions')
-        local fb_actions = require('telescope').extensions.file_browser.actions
+        local fb_actions = telescope.extensions.file_browser.actions
 
         telescope.setup({
             defaults = {
@@ -49,9 +48,6 @@ return {
                         ['n'] = {
                             ['N'] = fb_actions.create,
                             ['h'] = fb_actions.goto_parent_dir,
-                            ['/'] = function()
-                                vim.cmd('startinsert')
-                            end,
                         },
                     },
                 },

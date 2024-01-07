@@ -16,7 +16,7 @@ return {
         )
         vim.keymap.set(
             'n',
-            '<C-j>',
+            '<C-n>',
             '<Cmd>Lspsaga diagnostic_jump_next<cr>',
             opts
         )
