@@ -8,12 +8,11 @@ return {
     },
 
     config = function()
-        local builtin = require('telescope.builtin')
         local mason_lspconfig = require('mason-lspconfig') -- Ensure the servers above are installed
         local luasnip = require('luasnip')
 
         local attach = function(_, bufnr)
-            --[[ LSP specific keymaps]]
+            --[[ LSP specific keymaps ]]
             vim.keymap.set(
                 'n',
                 '<leader>rn',
@@ -22,53 +21,43 @@ return {
             )
             vim.keymap.set(
                 'n',
-                '<leader>ca',
-                vim.lsp.buf.code_action,
-                { desc = '[C]ode [A]ction' }
-            )
-            vim.keymap.set(
-                'n',
                 'gd',
                 vim.lsp.buf.definition,
-                { desc = '[G]oto [D]efinition' }
+                { desc = 'Go definition' }
             )
             vim.keymap.set(
                 'n',
                 'gI',
                 vim.lsp.buf.implementation,
-                { desc = '[G]oto [I]mplementation' }
+                { desc = 'Go implementation' }
             )
             vim.keymap.set(
                 'n',
                 '<leader>D',
                 vim.lsp.buf.type_definition,
-                { desc = 'Type [D]efinition' }
+                { desc = 'Type def' }
             )
-            vim.keymap.set(
-                'n',
-                'K',
-                vim.lsp.buf.hover,
-                { desc = 'Hover Documentation' }
-            ) -- See `:help K` for why this keymap
+
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover docs' }) -- See `:help K` for why this keymap
 
             -- [[ Diagnostic keymaps ]]
             vim.keymap.set(
                 'n',
-                '[d',
+                '<C-p>',
                 vim.diagnostic.goto_prev,
-                { desc = 'Go to previous diagnostic message' }
+                { desc = 'Go prev diag' }
             )
             vim.keymap.set(
                 'n',
-                ']d',
+                '<C-n>',
                 vim.diagnostic.goto_next,
-                { desc = 'Go to next diagnostic message' }
+                { desc = 'Go next diag' }
             )
             vim.keymap.set(
                 'n',
                 '<leader>e',
                 vim.diagnostic.open_float,
-                { desc = 'Open floating diagnostic message' }
+                { desc = 'Open float diag' }
             )
             vim.keymap.set(
                 'n',
@@ -78,18 +67,6 @@ return {
             )
 
             --[[ Misc ]]
-            vim.keymap.set(
-                'n',
-                'gr',
-                builtin.lsp_references,
-                { desc = '[G]oto [R]eferences' }
-            )
-            vim.keymap.set(
-                'n',
-                '<leader>ds',
-                builtin.lsp_document_symbols,
-                { desc = '[D]ocument [S]ymbols' }
-            )
             vim.keymap.set(
                 'n',
                 '<leader>rs',

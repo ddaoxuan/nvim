@@ -11,17 +11,17 @@ return {
 
         vim.keymap.set('n', '<leader>a', function()
             harpoon:list():append()
-        end)
+        end, { desc = 'add to harpoon' })
         vim.keymap.set('n', '<C-e>', function()
             harpoon.ui:toggle_quick_menu(harpoon:list())
-        end)
+        end, { desc = 'toggle harpoon' })
 
         vim.keymap.set('n', 'sa', function()
             harpoon:list():prev()
-        end)
+        end, { desc = 'prev harpoon item' })
         vim.keymap.set('n', 'sd', function()
             harpoon:list():next()
-        end)
+        end, { desc = 'next harpoon item' })
 
         -- old config
         -- vim.keymap.set('n', 'sc', require('harpoon.mark').add_file)

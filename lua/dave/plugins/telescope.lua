@@ -38,13 +38,7 @@ return {
             extensions = {
                 file_browser = {
                     theme = 'ivy',
-                    -- hijack_netrw = true, -- disables netrw add use telescope-file-browser in its place
                     mappings = {
-                        ['i'] = {
-                            ['<C-w>'] = function()
-                                vim.cmd('normal vbd')
-                            end,
-                        },
                         ['n'] = {
                             ['N'] = fb_actions.create,
                             ['h'] = fb_actions.goto_parent_dir,

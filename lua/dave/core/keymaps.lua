@@ -1,5 +1,5 @@
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) -- disable space as used as leader
-vim.keymap.set('n', '<leader>el', vim.cmd.Ex) -- explorer (netrw)
+-- vim.keymap.set('n', '<leader>ex', vim.cmd.Ex) -- explorer (netrw)
 vim.keymap.set('n', 'dw', 'vb"_d') -- Delete a word backwards
 vim.keymap.set('n', 'ss', ':split<Return><C-w>w', { silent = true }) -- horizontal split
 vim.keymap.set('n', 'sv', ':vsplit<Return><C-w)w', { silent = true }) -- vertical split
@@ -38,11 +38,11 @@ vim.keymap.set(
 )
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
--- replace current word
 vim.keymap.set(
     'n',
     '<leader>s',
-    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
+    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+    { desc = 'Replace current word' }
 )
 
 -- formatting

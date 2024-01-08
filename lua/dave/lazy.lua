@@ -1,6 +1,3 @@
---    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info
-
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
 if not vim.loop.fs_stat(lazypath) then
@@ -26,5 +23,8 @@ require('lazy').setup({
     checker = {
         enabled = true,
         notify = false,
+    },
+    change_detection = {
+        notify = false, -- disable notifications every time lazy makes updates
     },
 })

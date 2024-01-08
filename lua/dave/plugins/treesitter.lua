@@ -17,8 +17,8 @@ return {
                 'vim',
             },
 
-            sync_install = true,
-            auto_install = false,
+            sync_install = false,
+            auto_install = true,
 
             highlight = {
                 enable = true,
