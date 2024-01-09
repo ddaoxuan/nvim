@@ -22,6 +22,9 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 -- qf list next/prev
 vim.keymap.set('n', '<C-j>', '<cmd>cnext<CR>zz')
 vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
+-- loc list next/prev
+vim.keymap.set('n', '<leader>j', '<cmd>lnext<CR>zz')
+vim.keymap.set('n', '<leader>k', '<cmd>lprev<CR>zz')
 
 -- move lines up/down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")

@@ -35,6 +35,11 @@ return {
                     },
                 },
             },
+            pickers = {
+                oldfiles = {
+                    cwd_only = true,
+                },
+            },
             extensions = {
                 file_browser = {
                     theme = 'ivy',

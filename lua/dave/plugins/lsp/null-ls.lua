@@ -36,9 +36,11 @@ return {
                     end,
                 }),
             },
+
             -- configure format on save
             on_attach = function(current_client, bufnr)
                 if
+                    -- do not format if disabled
                     current_client.supports_method('textDocument/formatting')
                 then
                     vim.api.nvim_clear_autocmds({
