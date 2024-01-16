@@ -1,62 +1,109 @@
-vim.cmd 'autocmd!'
+require('dave.core.keymaps')
 
--- [[ Setting options ]]
--- See `:help vim.o`
-
--- [[ Encoding ]]
--- vim.scriptencoding = 'utf-8'
--- vim.opt.encoding = 'utf-8'
--- vim.opt.fileencoding = 'utf-8'
-
--- [[ UI/UX ]]
-vim.o.hlsearch = false -- Set highlight on search
-vim.o.mouse = 'a' -- Enable mouse mode
-vim.o.termguicolors = true -- NOTE: You should make sure your terminal supports this, enables true color
-vim.wo.signcolumn = 'yes' -- Keep signcolumn on by default
-vim.wo.number = true -- Show line numbers
-vim.opt.backspace = 'start,eol,indent' -- Customize backspace behaviour, enable backspace over start of insert line end nad indent
-
-vim.opt.listchars:append 'space:⋅' -- add dot to listchars for space
-vim.opt.listchars:append 'eol:↴' -- add arrow to listchars for enters
-
--- [[ Searching ]]
--- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.opt.path:append { '**' } -- Finding files - search down into subfolders
-vim.opt.wildignore:append { '*/node_modules/*' } -- Ignore node modules while performing file search
+vim.opt.guicursor = ''
+vim.o.termguicolors = true
 
 -- [[ Tabs and indentation ]]
 vim.opt.autoindent = true -- autoindent enabled
-vim.opt.shiftwidth = 4 -- 4 space indents
-vim.opt.tabstop = 4 -- 4 space indendts
+vim.opt.softtabstop = 4
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.ai = true -- Auto indent
 vim.opt.si = true -- Smart indent
 vim.opt.smarttab = true -- Enable smart tabbing
 vim.o.breakindent = true -- Enable break indent
+-- case insensitive search
+vim.o.smartcase = true -- Enable smart tabbing
+vim.o.ignorecase = true -- Enable smart tabbing
 
 -- [[ Timing ]]
 -- Decrease update time
-vim.o.updatetime = 250 -- shortens update time
+vim.o.updatetime = 50 -- shortens update time
 vim.o.timeoutlen = 300 -- shortens key sequence time
 
--- [[ Completion ]]
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
 -- [[ Misc ]]
-vim.o.undofile = true -- Save undo history
-vim.o.relativenumber = true -- enable relative number
-vim.opt.backupskip = '/tmp/*,/private/tmp/*' -- skip backup for specific paths
-vim.opt.showcmd = true --  Show partial commands
-vim.opt.cmdheight = 1 -- Set cli height to 1
-vim.opt.laststatus = 2 -- always show status line
-vim.opt.scrolloff = 10 -- Keep 10 lines visible when scrolling
-vim.opt.shell = 'fish' -- shell to fish
-vim.opt.inccommand = 'split' -- Shows the effect of the command incrementally
+vim.opt.colorcolumn = '80' -- Line length marker at 80 columns
+vim.wo.signcolumn = 'yes' -- Keep signcolumn on by default
+vim.opt.scrolloff = 8 -- Keep 8 lines visible when scrolling
 
--- [[ Clipboard ]]
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
--- vim.o.clipboard = 'unnamedplus'
+vim.o.undofile = true -- Save undo history
+vim.o.undodir = vim.fn.stdpath('config') .. '/undo' -- set undo directory
+vim.opt.backupskip = '/tmp/*,/private/tmp/*' -- skip backup for specific paths
+
+vim.o.nu = true -- show line numbers
+vim.o.relativenumber = true -- enable relative number
+
+vim.o.hlsearch = false -- Set highlight on search
+vim.o.incsearch = true -- Makes search act like search in modern browsers
+
+vim.opt.shell = 'fish' -- shell to fish
+
+-- netrw
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
+
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+local dave_group = augroup('Dave', {})
+
+-- highlight on yank
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 40,
+        })
+    end,
+})
+
+-- just to keep autocmds in a single file
+-- this attaches keymaps to lsp client
+autocmd('LspAttach', {
+    group = dave_group,
+    callback = function(ev)
+        local opts = { buffer = ev.buf }
+        vim.keymap.set('n', '<leader>rn', function()
+            vim.lsp.buf.rename()
+        end, opts)
+        vim.keymap.set('n', 'gd', function()
+            vim.lsp.buf.definition()
+        end, opts)
+        vim.keymap.set('n', 'gr', function()
+            vim.lsp.buf.references()
+        end, opts)
+        vim.keymap.set('n', 'gI', function()
+            vim.lsp.buf.implementation()
+        end, opts)
+        vim.keymap.set('n', '<leader>D', function()
+            vim.lsp.buf.type_definition()
+        end, opts)
+        vim.keymap.set('n', '<C-h>', function()
+            vim.lsp.buf.signature_help()
+        end, opts)
+        vim.keymap.set('n', 'K', function()
+            vim.lsp.buf.hover()
+        end, opts)
+
+        -- [[ Diagnostic keymaps ]]
+        vim.keymap.set('n', '<C-p>', function()
+            vim.diagnostic.goto_prev()
+        end, opts)
+        vim.keymap.set('n', '<C-n>', function()
+            vim.diagnostic.goto_next()
+        end, opts)
+        vim.keymap.set('n', '<leader>e', function()
+            vim.diagnostic.open_float()
+        end, opts)
+        vim.keymap.set('n', '<leader>q', function()
+            vim.diagnostic.setloclist()
+        end, opts)
+
+        --[[ Misc ]]
+        vim.keymap.set('n', '<leader>rs', ':LspRestart<cr>', opts)
+    end,
+})

@@ -1,4 +1,4 @@
-  return {
+return {
     'tpope/vim-surround',
-    event = 'InsertEnter'
-  }
+    event = 'InsertEnter',
+}

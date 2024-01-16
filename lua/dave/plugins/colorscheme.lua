@@ -1,16 +1,14 @@
 return {
-  -- Theme inspired by Atom
-  'navarasu/onedark.nvim',
-  priority = 1000, -- make sure to load this before all the other start plugins
-  config = function()
-    require('onedark').setup {
-      style = 'dark', -- other options: 'darker', 'cool', 'deep', 'warm', 'warmer
-      transparent = true,
-      term_colors = true,
-      -- toggle theme style ---
-      toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' }, -- List of styles to toggle between
-    }
-
-    require('onedark').load()
-  end,
+    {
+        'morhetz/gruvbox',
+        name = 'gruvbox',
+        priority = 1000,
+        config = function()
+            -- set transparent bg
+            vim.cmd('let g:gruvbox_transparent_bg = 1')
+            vim.cmd('autocmd VimEnter * hi Normal ctermbg=NONE guibg=NONE')
+            -- set colorscheme
+            vim.cmd('colorscheme gruvbox')
+        end,
+    },
 }

@@ -1,36 +1,52 @@
--- [[ Basic Keymaps ]]
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true }) -- disable space as used as leader
+-- vim.keymap.set('n', '<leader>ex', vim.cmd.Ex) -- explorer (netrw)
 vim.keymap.set('n', 'dw', 'vb"_d') -- Delete a word backwards
-
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- New tab
 vim.keymap.set('n', 'ss', ':split<Return><C-w>w', { silent = true }) -- horizontal split
 vim.keymap.set('n', 'sv', ':vsplit<Return><C-w)w', { silent = true }) -- vertical split
-
--- Move window
-vim.keymap.set('', 'sh', '<C-w>h')
-vim.keymap.set('', 'sk', '<C-w>k')
-vim.keymap.set('', 'sj', '<C-w>j')
-vim.keymap.set('', 'sl', '<C-w>l')
-
--- Resize window
-vim.keymap.set('n', '<C-w><left>', '<C-w><')
-vim.keymap.set('n', '<C-w><right>', '<C-w>>')
-vim.keymap.set('n', '<C-w><up>', '<C-w>-')
-vim.keymap.set('n', '<C-w><down>', '<C-w>+')
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G') --Select all
--- Open explorer
-vim.keymap.set('n', '<leader>fb', ':Explore<CR>')
 
--- Movement up and down but keeps the cursor in the center
+-- Move between splits
+vim.keymap.set('', 'sh', '<C-w>h') -- move left
+vim.keymap.set('', 'sk', '<C-w>k') -- move up
+vim.keymap.set('', 'sj', '<C-w>j') -- move down
+vim.keymap.set('', 'sl', '<C-w>l') -- move right
+
+--Center cursor when moving up and down
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
-vim.keymap.set('n', 'n', 'nzz')
-vim.keymap.set('n', 'N', 'Nzz')
+
+-- Center cursor when moving between selections
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
+
+-- qf list next/prev
+vim.keymap.set('n', '<C-j>', '<cmd>cnext<CR>zz')
+vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
+-- loc list next/prev
+vim.keymap.set('n', '<leader>j', '<cmd>lnext<CR>zz')
+vim.keymap.set('n', '<leader>k', '<cmd>lprev<CR>zz')
+
+-- move lines up/down
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+vim.keymap.set('x', '<leader>p', '"_dP') -- paste without yanking
+
+-- Copy to system clipboard
+vim.keymap.set(
+    { 'n', 'v' },
+    '<leader>y',
+    [["+y]],
+    { desc = 'Copy to system clipboard' }
+)
+vim.keymap.set('n', '<leader>Y', [["+Y]])
+
+vim.keymap.set(
+    'n',
+    '<leader>s',
+    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+    { desc = 'Replace current word' }
+)
+
+-- formatting
+-- vim.keymap.set("n", "<leader>o", vim.lsp.buf.format)
