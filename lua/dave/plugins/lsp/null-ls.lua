@@ -19,20 +19,19 @@ return {
                 '.git',
                 'package.json'
             ),
+
             -- setup formatters & linters
             sources = {
                 --  to disable file types use
                 --  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
-                formatting.prettier.with({
-                    extra_filetypes = { 'svelte' },
-                }), -- js/ts formatter
+                formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
                 formatting.stylua, -- lua formatter
-                diagnostics.eslint_d.with({ -- js/ts linter
+                diagnostics.eslint_d.with({
                     condition = function(utils)
                         return utils.root_has_file({
                             '.eslintrc.js',
                             '.eslintrc.cjs',
-                        }) -- only enable if root has .eslintrc.js or .eslintrc.cjs
+                        })
                     end,
                 }),
             },
