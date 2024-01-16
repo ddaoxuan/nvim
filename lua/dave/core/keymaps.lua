@@ -39,14 +39,6 @@ vim.keymap.set(
     [["+y]],
     { desc = 'Copy to system clipboard' }
 )
-vim.keymap.set('n', '<leader>Y', [["+Y]])
-
-vim.keymap.set(
-    'n',
-    '<leader>s',
-    [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = 'Replace current word' }
-)
 
 -- formatting
 -- vim.keymap.set("n", "<leader>o", vim.lsp.buf.format)

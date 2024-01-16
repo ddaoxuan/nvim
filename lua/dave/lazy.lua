@@ -16,6 +16,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     'nvim-lua/plenary.nvim', -- lua functions that many plugins use
     'github/copilot.vim', -- copilot
+    'tpope/vim-fugitive',
+    'numToStr/Comment.nvim',
     { import = 'dave.plugins' },
     { import = 'dave.plugins.lsp' },
 }, {

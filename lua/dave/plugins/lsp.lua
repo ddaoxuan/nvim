@@ -16,8 +16,6 @@ return {
         -- Snippets
         'L3MON4D3/LuaSnip',
         'saadparwaiz1/cmp_luasnip',
-        -- Show lsps init dialog
-        -- 'j-hui/fidget.nvim',
     },
 
     config = function()
