@@ -1,11 +1,13 @@
 return {
     'nvimtools/none-ls.nvim', -- configure formatters & linters
+    dependencies = {
+        'nvimtools/none-ls-extras.nvim',
+    },
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
         local null_ls = require('null-ls')
         local null_ls_utils = require('null-ls.utils')
         local formatting = null_ls.builtins.formatting -- to setup formatters
-        local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
         -- to setup format on save
         local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
@@ -26,7 +28,9 @@ return {
                 --  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
                 formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
                 formatting.stylua, -- lua formatter
-                diagnostics.eslint_d.with({
+                -- eslint_d no longer comes from built ins
+                require('none-ls.diagnostics.eslint_d').with({
+                    diagnostics_format = '[eslint] #{m}\n(#{c})',
                     condition = function(utils)
                         return utils.root_has_file({
                             '.eslintrc.js',
@@ -34,6 +38,9 @@ return {
                         })
                     end,
                 }),
+                formatting.gofumpt, -- go formatter
+                formatting.goimports_reviser, -- go formatter for imports sorting
+                formatting.golines, -- go line formatter
             },
 
             -- configure format on save

@@ -3,7 +3,7 @@ return {
     dependencies = {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
-        'jayp0521/mason-null-ls.nvim', -- formatting etc.
+        'jay-babu/mason-null-ls.nvim',
 
         -- Autocompletion
         'hrsh7th/nvim-cmp',
@@ -42,6 +42,10 @@ return {
             clangd = {},
             tsserver = {},
             pyright = {},
+            gopls = {
+                filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+                cmd = { 'gopls' },
+            },
             rust_analyzer = {},
             lua_ls = {
                 Lua = {
@@ -64,7 +68,7 @@ return {
             handlers = {
                 function(serverName)
                     require('lspconfig')[serverName].setup({
-                        apabilities = capabilities,
+                        capabilities = capabilities,
                         -- on_attach = attach, -- attach not needed as augroup is made in init.lua for global snippets
                         settings = servers[serverName],
                         filetypes = (servers[serverName] or {}).filetypes,
@@ -76,10 +80,7 @@ return {
         -- mason-null-ls bridge, kinda wanna get rid of it
         mason_null_ls.setup({
             -- list of formatters & linters for mason to install
-            ensure_installed = {
-                'prettier', -- ts/js formatter
-                'stylua', -- lua formatter
-            },
+            ensure_installed = nil,
             automatic_installation = true,
         })
 

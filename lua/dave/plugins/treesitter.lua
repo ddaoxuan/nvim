@@ -15,6 +15,7 @@ return {
                 'typescript',
                 'vimdoc',
                 'vim',
+                'go',
             },
 
             sync_install = false,
