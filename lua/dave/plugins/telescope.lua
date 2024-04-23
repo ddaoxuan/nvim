@@ -106,7 +106,7 @@ return {
         vim.keymap.set(
             'n',
             '<leader>sf',
-            ':Telescope find_files no_ignore=false hidden=true <cr>',
+            ':Telescope find_files hidden=true <cr>',
             { desc = '[S]earch [F]iles' }
         )
         vim.keymap.set(
