@@ -54,7 +54,7 @@ return {
         })
 
         telescope.load_extension('fzf') -- Enable telescope fzf native, if installed
-        telescope.load_extension('file_browser') -- Enable telescope fzf native, if installed
+        telescope.load_extension('file_browser')
 
         -- [[ Telescope keymaps ]]
         -- See `:help telescope.builtin`

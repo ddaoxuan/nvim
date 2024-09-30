@@ -7,7 +7,6 @@ return {
 
         -- Autocompletion
         'hrsh7th/nvim-cmp',
-        'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-nvim-lsp', -- Adds LSP completion capabilities
         'hrsh7th/cmp-buffer', -- source for text in buffer
         'hrsh7th/cmp-path', -- source for file system paths
@@ -40,7 +39,7 @@ return {
         local servers = {
             tailwindcss = {},
             clangd = {},
-            tsserver = {},
+            ts_ls = {},
             pyright = {},
             gopls = {
                 filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },

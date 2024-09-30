@@ -1,3 +1,4 @@
+-- this is for go development
 return {
     'olexsmir/gopher.nvim',
     ft = 'go',
