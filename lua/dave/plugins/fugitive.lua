@@ -27,7 +27,7 @@ return {
             end, { desc = 'git diff' })
 
             vim.keymap.set('n', '<leader>gv', function()
-                vim.cmd('Gvdiffsplit')
+                vim.cmd('Gvdiffsplit!')
             end, { desc = 'git diff split' })
 
             vim.keymap.set('n', '<leader>gl', function()
