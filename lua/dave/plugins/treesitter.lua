@@ -1,7 +1,7 @@
 return {
-    -- Highlight, edit, and navigate code
+    -- Syntax Highlight, edit, and navigate code % etc
     'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
+    build = ':TSUpdate', -- treesitter update not typescript update ..
     config = function()
         require('nvim-treesitter.configs').setup({
             -- Add languages to be installed here that you want installed for treesitter
@@ -16,6 +16,7 @@ return {
                 'vimdoc',
                 'vim',
                 'go',
+                'jsdoc',
             },
 
             sync_install = false,
