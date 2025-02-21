@@ -21,7 +21,7 @@ return {
             ),
 
             sources = {
-                --   formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
+                formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
                 formatting.stylua, -- lua formatter
                 formatting.gofumpt, -- go formatter
                 formatting.goimports_reviser, -- go formatter for imports sorting
