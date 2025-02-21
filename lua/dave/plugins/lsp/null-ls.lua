@@ -1,5 +1,5 @@
 return {
-    'nvimtools/none-ls.nvim', -- configure formatters & linters
+    'nvimtools/none-ls.nvim',
     dependencies = {
         'nvimtools/none-ls-extras.nvim',
     },
@@ -7,10 +7,8 @@ return {
     config = function()
         local null_ls = require('null-ls')
         local null_ls_utils = require('null-ls.utils')
-        local formatting = null_ls.builtins.formatting -- to setup formatters
-
-        -- to setup format on save
-        local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+        local formatting = null_ls.builtins.formatting
+        local augroup = vim.api.nvim_create_augroup('LspFormatting', {}) -- auto group for format on save
 
         -- configure null_ls
         null_ls.setup({
@@ -22,13 +20,13 @@ return {
                 'package.json'
             ),
 
-            -- setup formatters & linters
             sources = {
-                --  to disable file types use
-                --  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
-                formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
+                --   formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
                 formatting.stylua, -- lua formatter
-                -- eslint_d no longer comes from built ins
+                formatting.gofumpt, -- go formatter
+                formatting.goimports_reviser, -- go formatter for imports sorting
+                formatting.golines, -- go line formatter
+                -- eslint
                 require('none-ls.diagnostics.eslint_d').with({
                     diagnostics_format = '[eslint] #{m}\n(#{c})',
                     condition = function(utils)
@@ -38,9 +36,23 @@ return {
                         })
                     end,
                 }),
-                formatting.gofumpt, -- go formatter
-                formatting.goimports_reviser, -- go formatter for imports sorting
-                formatting.golines, -- go line formatter
+                -- biome formatter
+                formatting.biome.with({
+                    args = {
+                        'check',
+                        '--write',
+                        '--unsafe',
+                        '--formatter-enabled=true',
+                        '--organize-imports-enabled=true',
+                        '--skip-errors',
+                        '--stdin-file-path=$FILENAME',
+                    },
+                    condition = function(utils)
+                        return utils.root_has_file({
+                            'biome.json',
+                        })
+                    end,
+                }),
             },
 
             -- configure format on save

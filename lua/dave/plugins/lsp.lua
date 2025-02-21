@@ -4,27 +4,47 @@ return {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
         'jay-babu/mason-null-ls.nvim',
-
-        -- Autocompletion
-        'hrsh7th/nvim-cmp',
-        'hrsh7th/cmp-nvim-lsp', -- Adds LSP completion capabilities
-        'hrsh7th/cmp-buffer', -- source for text in buffer
-        'hrsh7th/cmp-path', -- source for file system paths
-        'hrsh7th/cmp-cmdline', -- source for file system paths
-
-        -- Snippets
-        'L3MON4D3/LuaSnip',
-        'saadparwaiz1/cmp_luasnip',
     },
 
     config = function()
         local mason_lspconfig = require('mason-lspconfig')
         local mason = require('mason')
         local mason_null_ls = require('mason-null-ls')
-        local cmp = require('cmp')
-        local luasnip = require('luasnip')
+        local cmp_lsp = require('cmp_nvim_lsp')
+        local servers = {
+            tailwindcss = {},
+            clangd = {},
+            pyright = {},
+            gopls = {
+                filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+                cmd = { 'gopls' },
+            },
+            lua_ls = {
+                Lua = {
+                    diagnostics = {
+                        globals = { 'vim' },
+                    },
+                },
+            },
+            biome = {
+                cmd = { 'biome', 'lsp-proxy' },
+                filetypes = {
+                    'astro',
+                    'css',
+                    'graphql',
+                    'javascript',
+                    'javascriptreact',
+                    'json',
+                    'jsonc',
+                    'svelte',
+                    'typescript',
+                    'typescript.tsx',
+                    'typescriptreact',
+                    'vue',
+                },
+            },
+        }
 
-        -- mason
         mason.setup({
             ui = {
                 icons = {
@@ -35,30 +55,9 @@ return {
             },
         })
 
-        -- define servers
-        local servers = {
-            tailwindcss = {},
-            clangd = {},
-            ts_ls = {},
-            pyright = {},
-            gopls = {
-                filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-                cmd = { 'gopls' },
-            },
-            rust_analyzer = {},
-            lua_ls = {
-                Lua = {
-                    diagnostics = {
-                        globals = { 'vim' },
-                    },
-                },
-            },
-        }
-
         -- bridge for cmp and lsp
         local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities =
-            require('cmp_nvim_lsp').default_capabilities(capabilities)
+        capabilities = cmp_lsp.default_capabilities(capabilities)
 
         -- bridge for mason and lsp
         mason_lspconfig.setup({
@@ -76,38 +75,11 @@ return {
             },
         })
 
-        -- mason-null-ls bridge, kinda wanna get rid of it
+        -- bridge for mason-null-ls, kinda wanna get rid of it
         mason_null_ls.setup({
             -- list of formatters & linters for mason to install
             ensure_installed = nil,
             automatic_installation = true,
-        })
-
-        -- autocompletion setup
-        local cmp_select = { behavior = cmp.SelectBehavior.Select }
-        cmp.setup({
-            snippet = {
-                expand = function(args)
-                    luasnip.lsp_expand(args.body)
-                end,
-            },
-            mapping = cmp.mapping.preset.insert({
-                ['<C-k>'] = cmp.mapping.select_prev_item(cmp_select), -- prev suggestion
-                ['<C-j>'] = cmp.mapping.select_next_item(cmp_select), -- next suggestion
-                ['<C-Space>'] = cmp.mapping.complete(), -- Show completion window
-                ['<C-q>'] = cmp.mapping.abort(), -- close completion window
-                ['<C-y>'] = cmp.mapping.confirm({
-                    select = true,
-                }),
-            }),
-            -- sources for completion
-            sources = {
-                { name = 'nvim_lsp' }, -- lsp
-                { name = 'luasnip' }, -- snippets
-            },
-            {
-                { name = 'buffer' }, -- text within current buffer
-            },
         })
     end,
 }
