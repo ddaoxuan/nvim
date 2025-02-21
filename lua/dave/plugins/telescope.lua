@@ -85,11 +85,29 @@ return {
             builtin.grep_string,
             { desc = '[S]earch current [W]ord' }
         )
+        vim.keymap.set('n', '<leader>fgc', function()
+            builtin.live_grep({
+                additional_args = function()
+                    return { '--case-sensitive' }
+                end,
+            })
+        end, { desc = 'search grep case sensitive' })
+
+        vim.keymap.set('n', '<leader>fgd', function()
+            local cwd = vim.fn.input(
+                'cwd: [' .. vim.fn.getcwd() .. ']: ',
+                vim.fn.getcwd()
+            )
+
+            builtin.live_grep({
+                cwd = cwd,
+            })
+        end, { desc = 'search grep for input dir' })
         vim.keymap.set(
             'n',
             '<leader>sg',
             builtin.live_grep,
-            { desc = '[S]earch by [G]rep' }
+            { desc = 'search grep' }
         )
         vim.keymap.set(
             'n',
@@ -97,10 +115,6 @@ return {
             builtin.diagnostics,
             { desc = '[S]earch [D]iagnostics' }
         )
-
-        vim.keymap.set('n', '<leader>rg', function()
-            builtin.grep_string({ search = vim.fn.input('Grep >') })
-        end, { desc = '[R]egex [G]rep' })
 
         -- Extensions
         vim.keymap.set(
