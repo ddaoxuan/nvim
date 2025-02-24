@@ -15,7 +15,6 @@ return {
                 'typescript',
                 'vimdoc',
                 'vim',
-                'go',
                 'jsdoc',
             },
 

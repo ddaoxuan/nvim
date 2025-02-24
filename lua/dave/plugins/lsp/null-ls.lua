@@ -21,21 +21,8 @@ return {
             ),
 
             sources = {
-                formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
+                -- formatting.prettier, -- js/ts formatter -- no need to call it is part of builtins (see null-ls docs)
                 formatting.stylua, -- lua formatter
-                formatting.gofumpt, -- go formatter
-                formatting.goimports_reviser, -- go formatter for imports sorting
-                formatting.golines, -- go line formatter
-                -- eslint
-                require('none-ls.diagnostics.eslint_d').with({
-                    diagnostics_format = '[eslint] #{m}\n(#{c})',
-                    condition = function(utils)
-                        return utils.root_has_file({
-                            '.eslintrc.js',
-                            '.eslintrc.cjs',
-                        })
-                    end,
-                }),
                 -- biome formatter
                 formatting.biome.with({
                     args = {
@@ -53,10 +40,21 @@ return {
                         })
                     end,
                 }),
+                -- eslint
+                -- require('none-ls.diagnostics.eslint_d').with({
+                --     diagnostics_format = '[eslint] #{m}\n(#{c})',
+                --     condition = function(utils)
+                --         return utils.root_has_file({
+                --             '.eslintrc.js',
+                --             '.eslintrc.cjs',
+                --         })
+                --     end,
+                -- }),
             },
 
             -- configure format on save
             on_attach = function(current_client, bufnr)
+                vim.notify('LSP attached: ' .. current_client.name)
                 if
                     -- do not format if disabled
                     current_client.supports_method('textDocument/formatting')
