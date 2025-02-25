@@ -49,7 +49,6 @@ vim.g.editorconfig = true
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
-local dave_group = augroup('Dave', {})
 
 -- highlight on yank
 autocmd('TextYankPost', {
@@ -63,49 +62,3 @@ autocmd('TextYankPost', {
     end,
 })
 
--- just to keep autocmds in a single file
--- this attaches keymaps to lsp client
-autocmd('LspAttach', {
-    group = dave_group,
-    callback = function(ev)
-        local opts = { buffer = ev.buf }
-        vim.keymap.set('n', '<leader>rn', function()
-            vim.lsp.buf.rename()
-        end, opts)
-        vim.keymap.set('n', 'gd', function()
-            vim.lsp.buf.definition()
-        end, opts)
-        vim.keymap.set('n', 'gr', function()
-            vim.lsp.buf.references()
-        end, opts)
-        vim.keymap.set('n', 'gI', function()
-            vim.lsp.buf.implementation()
-        end, opts)
-        vim.keymap.set('n', '<leader>D', function()
-            vim.lsp.buf.type_definition()
-        end, opts)
-        vim.keymap.set('n', '<C-h>', function()
-            vim.lsp.buf.signature_help()
-        end, opts)
-        vim.keymap.set('n', 'K', function()
-            vim.lsp.buf.hover()
-        end, opts)
-
-        -- [[ Diagnostic keymaps ]]
-        vim.keymap.set('n', '<C-p>', function()
-            vim.diagnostic.goto_prev()
-        end, opts)
-        vim.keymap.set('n', '<C-n>', function()
-            vim.diagnostic.goto_next()
-        end, opts)
-        vim.keymap.set('n', '<leader>e', function()
-            vim.diagnostic.open_float()
-        end, opts)
-        vim.keymap.set('n', '<leader>q', function()
-            vim.diagnostic.setloclist()
-        end, opts)
-
-        --[[ Misc ]]
-        vim.keymap.set('n', '<leader>rs', ':LspRestart<cr>', opts)
-    end,
-})

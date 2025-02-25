@@ -14,6 +14,11 @@ return {
     config = function()
         local cmp = require('cmp')
         local luasnip = require('luasnip')
+        local cmp_lsp = require('cmp_nvim_lsp')
+
+        -- bridge for cmp & lsp
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities = cmp_lsp.default_capabilities(capabilities)
 
         -- autocompletion setup
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
