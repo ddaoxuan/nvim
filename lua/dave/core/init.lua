@@ -37,7 +37,7 @@ vim.o.relativenumber = true -- enable relative number
 vim.o.hlsearch = false -- Set highlight on search
 vim.o.incsearch = true -- Makes search act like search in modern browsers
 
-vim.opt.shell = 'fish' -- shell to fish
+vim.opt.shell = 'zsh' -- shell to fish
 
 -- netrw
 vim.g.netrw_browse_split = 0
@@ -61,4 +61,3 @@ autocmd('TextYankPost', {
         })
     end,
 })
-
