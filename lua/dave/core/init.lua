@@ -61,3 +61,9 @@ autocmd('TextYankPost', {
         })
     end,
 })
+
+-- treat .env files as sh
+autocmd('BufReadPost', {
+    pattern = '.env*',
+    command = 'set filetype=sh',
+})
