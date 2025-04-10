@@ -11,6 +11,7 @@ return {
         local lsp_group = augroup('lsp', {})
 
         local servers = {
+            rust_analyzer = {},
             tailwindcss = {},
             clangd = {},
             pyright = {},
@@ -57,6 +58,9 @@ return {
             automatic_installation = true,
             handlers = {
                 function(serverName)
+                    if serverName == 'rust_analyzer' then
+                        return
+                    end
                     require('lspconfig')[serverName].setup({
                         capabilities = capabilities,
                         -- on_attach = attach, -- attach not needed as augroup is made in init.lua for global snippets
