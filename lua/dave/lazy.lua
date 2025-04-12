@@ -19,6 +19,7 @@ require('lazy').setup({
     'numToStr/Comment.nvim',
     { import = 'dave.plugins' },
     { import = 'dave.plugins.lsp' },
+    { import = 'dave.plugins.rust' },
 }, {
     -- Check for updates every time when running nvim, just do not notify, It is handled via lualine instead
     checker = {
