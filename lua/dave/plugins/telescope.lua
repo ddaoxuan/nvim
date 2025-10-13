@@ -1,23 +1,17 @@
--- [[ Configure Telescope - Fuzzy Finder ]]
--- See `:help telescope` and `:help telescope.setup()`
 return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
-        'BurntSushi/ripgrep',
-        'nvim-lua/plenary.nvim', -- lua functions that telescope needs
-        'nvim-telescope/telescope-file-browser.nvim', -- tree structure plugin
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope-file-browser.nvim',
         'nvim-tree/nvim-web-devicons',
         {
-            -- improve telescope sorting perf
-            -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-            -- Only load if `make` is available. Make sure you have the system
-            -- requirements installed.
             'nvim-telescope/telescope-fzf-native.nvim',
             build = 'make',
             cond = function()
                 return vim.fn.executable('make') == 1
             end,
         },
+        'smilovanovic/telescope-search-dir-picker.nvim',
     },
     config = function()
         local telescope = require('telescope')
@@ -27,20 +21,25 @@ return {
 
         telescope.setup({
             defaults = {
+                vimgrep_arguments = {
+                    'rg',
+                    '--color=never',
+                    '--no-heading',
+                    '--with-filename',
+                    '--line-number',
+                    '--column',
+                    '--smart-case', -- case-insensitive unless query has uppercase
+                },
                 mappings = {
                     i = {
-                        ['<C-k>'] = actions.move_selection_previous, -- move to prev result
-                        ['<C-j>'] = actions.move_selection_next, -- move to next resultj
+                        ['<C-k>'] = actions.move_selection_previous,
+                        ['<C-j>'] = actions.move_selection_next,
                         ['<C-q>'] = actions.send_selected_to_qflist
-                            + actions.open_qflist, -- send to qf list and open
+                            + actions.open_qflist,
                     },
                 },
             },
-            pickers = {
-                oldfiles = {
-                    cwd_only = true,
-                },
-            },
+            pickers = { oldfiles = { cwd_only = true } },
             extensions = {
                 file_browser = {
                     theme = 'ivy',
@@ -54,13 +53,10 @@ return {
             },
         })
 
-        telescope.load_extension('fzf') -- Enable telescope fzf native, if installed
+        telescope.load_extension('fzf')
         telescope.load_extension('file_browser')
+        telescope.load_extension('search_dir_picker')
 
-        -- [[ Telescope keymaps ]]
-        -- See `:help telescope.builtin`
-
-        -- builtins
         vim.keymap.set(
             'n',
             '<leader>?',
@@ -86,13 +82,6 @@ return {
             builtin.grep_string,
             { desc = '[S]earch current [W]ord' }
         )
-        vim.keymap.set('n', '<leader>fgc', function()
-            builtin.live_grep({
-                additional_args = function()
-                    return { '--case-sensitive' }
-                end,
-            })
-        end, { desc = 'search grep case sensitive' })
         vim.keymap.set(
             'n',
             '<leader>sg',
@@ -105,32 +94,37 @@ return {
             builtin.diagnostics,
             { desc = '[S]earch [D]iagnostics' }
         )
-        vim.keymap.set('n', '<leader>fm', builtin.man_pages, {
-            desc = 'Lists manpage entries, opens them in a help window on <cr>',
-        })
+        vim.keymap.set(
+            'n',
+            '<leader>fm',
+            builtin.man_pages,
+            { desc = 'Man pages' }
+        )
+        vim.keymap.set(
+            'n',
+            '<leader>fr',
+            builtin.lsp_references,
+            { desc = 'LSP references' }
+        )
 
-        vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {
-            desc = 'Lists LSP references for word under the cursor',
-        })
-
-        -- Extensions
+        -- Search files
         vim.keymap.set('n', '<leader>sf', function()
-            require('telescope.builtin').find_files({
-                hidden = true, -- show dotfiles
-                -- include ignored files but re-exclude heavy dirs
+            builtin.find_files({
+                hidden = true,
                 find_command = {
                     'rg',
                     '--files',
                     '--hidden',
                     '--no-ignore-vcs',
                     '--glob',
-                    '!**/{.git,node_modules,.next,.vercel,dist,build,.nx,.yarn,coverage}/**', -- glob to exclude patterns from finding
+                    '!**/{.git,node_modules,.next,.vercel,dist,build,.nx,.yarn,coverage}/**',
                 },
             })
         end, { desc = '[S]earch [F]iles' })
 
+        -- File browser
         vim.keymap.set('n', '<leader>fe', function()
-            require('telescope').extensions.file_browser.file_browser({
+            telescope.extensions.file_browser.file_browser({
                 path = vim.fn.expand('%:p:h'),
                 select_buffer = true,
                 respect_git_ignore = false,
@@ -140,5 +134,12 @@ return {
                 initial_mode = 'normal',
             })
         end, { desc = '[S]earch [T]ree' })
+
+        vim.keymap.set(
+            'n',
+            '<leader>sD',
+            require('search_dir_picker').search_dir,
+            { desc = 'Pick dir then live_grep' }
+        )
     end,
 }
