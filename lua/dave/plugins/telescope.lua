@@ -3,6 +3,7 @@
 return {
     'nvim-telescope/telescope.nvim',
     dependencies = {
+        'BurntSushi/ripgrep',
         'nvim-lua/plenary.nvim', -- lua functions that telescope needs
         'nvim-telescope/telescope-file-browser.nvim', -- tree structure plugin
         'nvim-tree/nvim-web-devicons',
@@ -92,17 +93,6 @@ return {
                 end,
             })
         end, { desc = 'search grep case sensitive' })
-
-        vim.keymap.set('n', '<leader>fgd', function()
-            local cwd = vim.fn.input(
-                'cwd: [' .. vim.fn.getcwd() .. ']: ',
-                vim.fn.getcwd()
-            )
-
-            builtin.live_grep({
-                cwd = cwd,
-            })
-        end, { desc = 'search grep for input dir' })
         vim.keymap.set(
             'n',
             '<leader>sg',
@@ -115,19 +105,40 @@ return {
             builtin.diagnostics,
             { desc = '[S]earch [D]iagnostics' }
         )
+        vim.keymap.set('n', '<leader>fm', builtin.man_pages, {
+            desc = 'Lists manpage entries, opens them in a help window on <cr>',
+        })
+
+        vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {
+            desc = 'Lists LSP references for word under the cursor',
+        })
 
         -- Extensions
-        vim.keymap.set(
-            'n',
-            '<leader>sf',
-            ':Telescope find_files hidden=true <cr>',
-            { desc = '[S]earch [F]iles' }
-        )
-        vim.keymap.set(
-            'n',
-            '<leader>fb',
-            ':Telescope file_browser path=%:p:h select_buffer=true respect_git_ignore=false hidden=true grouped=true previewer=true initial_mode=normal<CR>',
-            { desc = '[S]earch [T]ree' }
-        )
+        vim.keymap.set('n', '<leader>sf', function()
+            require('telescope.builtin').find_files({
+                hidden = true, -- show dotfiles
+                -- include ignored files but re-exclude heavy dirs
+                find_command = {
+                    'rg',
+                    '--files',
+                    '--hidden',
+                    '--no-ignore-vcs',
+                    '--glob',
+                    '!**/{.git,node_modules,.next,.vercel,dist,build,.nx,.yarn,coverage}/**', -- glob to exclude patterns from finding
+                },
+            })
+        end, { desc = '[S]earch [F]iles' })
+
+        vim.keymap.set('n', '<leader>fe', function()
+            require('telescope').extensions.file_browser.file_browser({
+                path = vim.fn.expand('%:p:h'),
+                select_buffer = true,
+                respect_git_ignore = false,
+                hidden = true,
+                grouped = true,
+                previewer = true,
+                initial_mode = 'normal',
+            })
+        end, { desc = '[S]earch [T]ree' })
     end,
 }

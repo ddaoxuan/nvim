@@ -4,7 +4,7 @@ return {
     dependencies = {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
-        'hrsh7th/cmp-nvim-lsp',
+        { 'hrsh7th/cmp-nvim-lsp', commit = '39e2eda76828d88b773cc27a3f61d2ad782c922d' },
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-cmdline',
@@ -14,11 +14,6 @@ return {
     config = function()
         local cmp = require('cmp')
         local luasnip = require('luasnip')
-        local cmp_lsp = require('cmp_nvim_lsp')
-
-        -- bridge for cmp & lsp
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = cmp_lsp.default_capabilities(capabilities)
 
         -- autocompletion setup
         local cmp_select = { behavior = cmp.SelectBehavior.Select }

@@ -1,8 +1,9 @@
 return {
     'neovim/nvim-lspconfig',
+    version = '1.8.0',
     dependencies = {
         'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
+        { 'williamboman/mason-lspconfig.nvim', version = '1.32.0' },
     },
 
     config = function()
