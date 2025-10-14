@@ -1,10 +1,9 @@
-return {}
--- return {
---     'folke/which-key.nvim',
---     event = 'VeryLazy',
---     init = function()
---         vim.o.timeout = true
---         vim.o.timeoutlen = 100
---     end,
---     opts = {},
--- }
+return {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    init = function()
+        vim.o.timeout = true
+        vim.o.timeoutlen = 100
+    end,
+    opts = {},
+}

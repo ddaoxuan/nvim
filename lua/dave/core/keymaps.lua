@@ -19,9 +19,48 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
--- qf list next/prev
-vim.keymap.set('n', '<leader>j', '<cmd>cnext<CR>zz')
-vim.keymap.set('n', '<leader>k', '<cmd>cprev<CR>zz')
+-- qf list
+vim.keymap.set(
+    'n',
+    '<C-j>',
+    '<cmd>cnext<CR>zz',
+    { desc = 'Next item in quickfix list' }
+)
+vim.keymap.set(
+    'n',
+    '<C-k>',
+    '<cmd>cprev<CR>zz',
+    { desc = 'Previous item in quickfix list' }
+)
+vim.keymap.set('n', '<leader>oq', function()
+    if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+        vim.cmd('cclose')
+    else
+        vim.cmd('copen')
+    end
+end, { desc = 'Toggle quickfix list', silent = true })
+
+--loc list
+vim.keymap.set(
+    'n',
+    '<C-h>',
+    '<cmd>lnext<CR>zz',
+    { desc = 'Next item in location list' }
+)
+vim.keymap.set(
+    'n',
+    '<C-l>',
+    '<cmd>lprev<CR>zz',
+    { desc = 'Previous item in location list' }
+)
+
+vim.keymap.set('n', '<leader>ol', function()
+    if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then
+        vim.cmd('lclose')
+    else
+        vim.cmd('lopen')
+    end
+end, { desc = 'Toggle location list', silent = true })
 
 -- move lines up/down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
