@@ -17,6 +17,7 @@ return {
         local telescope = require('telescope')
         local builtin = require('telescope.builtin')
         local actions = require('telescope.actions')
+        local action_state = require('telescope.actions.state')
         local fb_actions = telescope.extensions.file_browser.actions
 
         telescope.setup({
@@ -32,6 +33,22 @@ return {
                 },
                 mappings = {
                     i = {
+                        ['<C-h>'] = function(prompt_bufnr)
+                            local previewer = action_state.get_current_picker(
+                                prompt_bufnr
+                            ).previewer
+                            if previewer and previewer.scroll_fn then
+                                previewer:scroll_fn(-1) -- up one line
+                            end
+                        end,
+                        ['<C-l>'] = function(prompt_bufnr)
+                            local previewer = action_state.get_current_picker(
+                                prompt_bufnr
+                            ).previewer
+                            if previewer and previewer.scroll_fn then
+                                previewer:scroll_fn(1) -- down one line
+                            end
+                        end,
                         ['<C-k>'] = actions.move_selection_previous,
                         ['<C-j>'] = actions.move_selection_next,
                         ['<C-q>'] = actions.send_selected_to_qflist
@@ -63,6 +80,11 @@ return {
             builtin.oldfiles,
             { desc = 'Recently opened files' }
         )
+        -- Peek definition using Telescope
+        vim.keymap.set('n', 'gp', function()
+            require('telescope.builtin').lsp_definitions({ jump_type = 'never' })
+        end, { desc = 'Peek definition (Telescope)' })
+
         vim.keymap.set(
             'n',
             '<leader><space>',
@@ -78,9 +100,9 @@ return {
         )
         vim.keymap.set(
             'n',
-            '<leader>sw',
+            '<leader>fw',
             builtin.grep_string,
-            { desc = '[S]earch current [W]ord' }
+            { desc = 'Grep current word' }
         )
         vim.keymap.set(
             'n',

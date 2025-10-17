@@ -4,7 +4,10 @@ return {
     dependencies = {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
-        { 'hrsh7th/cmp-nvim-lsp', commit = '39e2eda76828d88b773cc27a3f61d2ad782c922d' },
+        {
+            'hrsh7th/cmp-nvim-lsp',
+            commit = '39e2eda76828d88b773cc27a3f61d2ad782c922d',
+        },
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-cmdline',

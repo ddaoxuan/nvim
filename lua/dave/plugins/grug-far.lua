@@ -14,9 +14,9 @@ return {
             grug.open()
         end, { desc = '[S]earch and [R]eplace' })
 
-        -- vim.keymap.set('n', '<leader>sw', function()
-        --     grug.open({ prefills = { search = vim.fn.expand('<cword>') } })
-        -- end, { desc = '[S]earch and replace current [W]ord' })
+        vim.keymap.set('n', '<leader>sw', function()
+            grug.open({ prefills = { search = vim.fn.expand('<cword>') } })
+        end, { desc = '[S]earch and replace current [W]ord' })
 
         vim.keymap.set('v', '<leader>sr', function()
             grug.with_visual_selection()
