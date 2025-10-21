@@ -163,5 +163,9 @@ return {
             require('search_dir_picker').search_dir,
             { desc = 'Pick dir then live_grep' }
         )
+
+        vim.keymap.set('n', '<leader>st', function()
+            builtin.colorscheme({ ignore_builtins = true, enable_preview = true })
+        end)
     end,
 }
