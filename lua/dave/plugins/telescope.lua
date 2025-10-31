@@ -149,7 +149,7 @@ return {
                     '--hidden',
                     '--no-ignore-vcs',
                     '--glob',
-                    '!**/{.git,node_modules,.next,.vercel,dist,build,.nx,.yarn,coverage}/**',
+                    '!**/{.git,node_modules,.next,dist,build,.nx,.yarn,coverage}/**',
                 },
             })
         end, { desc = 'search files' })
@@ -160,6 +160,8 @@ return {
                 path = vim.fn.expand('%:p:h'),
                 select_buffer = true,
                 respect_git_ignore = false,
+                no_ignore = true,
+                no_ignore_parent = true,
                 hidden = true,
                 grouped = true,
                 previewer = true,
