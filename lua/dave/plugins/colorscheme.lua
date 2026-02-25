@@ -14,12 +14,11 @@ return {
         'folke/tokyonight.nvim',
         dependencies = {
             'bettervim/yugen.nvim',
-            'morhetz/gruvbox',
-            'kyazdani42/blue-moon',
-            'sainnhe/everforest',
-            'nyoom-engineering/oxocarbon.nvim',
-            'olivercederborg/poimandres.nvim',
             'datsfilipe/vesper.nvim',
+            'morhetz/gruvbox',
+            'sainnhe/everforest',
+            'rebelot/kanagawa.nvim',
+            'rose-pine/neovim',
         },
         lazy = false,
         priority = 1000,
@@ -28,7 +27,7 @@ return {
             -- transparent bg
             -- vim.cmd('autocmd VimEnter * hi Normal ctermbg=NONE guibg=NONE')
             -- set colorscheme
-            vim.cmd('colorscheme everforest')
+            vim.cmd('colorscheme rose-pine-moon')
         end,
     },
 }
