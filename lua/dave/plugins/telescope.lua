@@ -42,7 +42,11 @@ return {
                     '--smart-case', -- case-insensitive unless query has uppercase
                 },
                 mappings = {
+                    n = {
+                        ['<C-a>'] = actions.toggle_all,
+                    },
                     i = {
+                        ['<C-a>'] = actions.toggle_all,
                         ['<C-h>'] = function(prompt_bufnr)
                             local previewer = action_state.get_current_picker(
                                 prompt_bufnr
@@ -114,12 +118,13 @@ return {
             builtin.grep_string,
             { desc = 'Grep current word' }
         )
-        vim.keymap.set(
-            'n',
-            '<leader>sg',
-            builtin.live_grep,
-            { desc = 'search grep' }
-        )
+        vim.keymap.set('n', '<leader>sg', function()
+            builtin.live_grep({
+                additional_args = function()
+                    return { '--hidden', '--glob', '!.git/**' }
+                end,
+            })
+        end, { desc = 'search grep' })
         vim.keymap.set(
             'n',
             '<leader>sd',
